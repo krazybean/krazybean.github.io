@@ -114,7 +114,7 @@ function renderHero() {
         <p class="subtitle accent">${escapeHtml(profile.title)}</p>
         <p class="tagline">${escapeHtml(heroSummary)}</p>
         <div class="hero-links" aria-label="External links">
-          <a href="https://github.com/YOUR_USERNAME" target="_blank" rel="noopener noreferrer">[GITHUB]</a>
+          <a href="https://github.com/krazybean" target="_blank" rel="noopener noreferrer">[GITHUB]</a>
           <a href="https://www.linkedin.com/in/juan-castro-dev/" target="_blank" rel="noopener noreferrer">[LINKEDIN]</a>
           <a href="/docs/Juan-Castro-Resume.pdf" target="_blank" rel="noopener noreferrer">[RESUME]</a>
         </div>
