@@ -53,6 +53,11 @@ button {
   color: inherit;
 }
 
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
 ::selection {
   background: rgba(0, 255, 136, 0.22);
 }
@@ -95,7 +100,8 @@ button {
 }
 
 .hero-panel code {
-  white-space: pre;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 
 .eyebrow,
@@ -134,7 +140,7 @@ button {
 
 .tagline {
   margin: 14px 0 0;
-  max-width: 640px;
+  max-width: 62ch;
   color: var(--muted);
   font-size: 1rem;
 }
@@ -253,7 +259,6 @@ button {
   background: var(--surface);
   padding: 16px;
   transition: transform 180ms ease, border-color 180ms ease, background-color 180ms ease;
-  cursor: pointer;
 }
 
 .project:hover {
@@ -314,6 +319,7 @@ button {
 .project-description {
   margin: 8px 0 12px;
   color: var(--muted);
+  line-height: 1.5;
 }
 
 .project-details {
@@ -498,23 +504,8 @@ button {
 
 @media (min-width: 960px) {
   .projects-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     align-items: stretch;
-  }
-
-  .project:first-child {
-    grid-column: span 2;
-    grid-row: span 2;
-    min-height: 100%;
-  }
-
-  .project:nth-child(2),
-  .project:nth-child(3) {
-    grid-column: span 1;
-  }
-
-  .project:nth-child(4) {
-    grid-column: span 2;
   }
 
   .tech-grid {
@@ -530,5 +521,16 @@ button {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     align-items: stretch;
     grid-auto-rows: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
   }
 }

@@ -1,65 +1,54 @@
 const profile = {
   name: "Juan Castro",
   title: "Backend Engineer • Systems • Infrastructure",
-  tagline: "I build production-minded systems with a focus on clarity, reliability, and strong domain modeling.",
-
-  about: `I’m a backend-focused engineer with a background in Linux systems, infrastructure, and database-heavy applications.
-
-I tend to think in systems — how things connect, where they break, and how to make them easier to reason about over time.
-
-Most of my work has been around building and hardening production systems, where correctness, observability, and simplicity matter more than cleverness.
-
-Lately, I’ve been focused on building small, well-polished tools and thinking more deeply about control planes and multi-tenant system design.
-
-I enjoy building things that are small, clear, and hold up under real-world constraints.`,
+  about: "I’m a backend and systems engineer focused on infrastructure, developer tooling, and event-driven applications.",
 
   focus: [
-    "Building small, polished Python CLI tools",
-    "Designing a multi-tenant infrastructure control plane (SaSSy)",
-    "Improving CI/CD and release workflows",
-    "Exploring scalable system design patterns"
+    "Building native macOS tooling around lightweight Linux VMs",
+    "Developing a provider-neutral model API across TypeScript, Python, and Rust",
+    "Building local security detection and event-processing pipelines"
+  ],
+
+  history: [
+    { company: "RACKSPACE", description: "Cloud database systems at scale", impact: "300k+ databases, 1.5M websites" },
+    { company: "LIQUID WEB", description: "Infrastructure provisioning architecture", impact: "Migrated 400k+ customers" },
+    { company: "MAILGUN", description: "High-throughput validation + stream processing", impact: "500k–8M events/day" },
+    { company: "COMMANDLINK", description: "Security platform infrastructure + event processing", impact: "multi-tenant systems, rule engines, telemetry pipelines" }
   ],
 
   projects: [
     {
       name: "Hayabusa",
-      description: "Local-first security detection system",
+      icon: "radar",
+      description: "Local-first security detection playground built around an event-to-alert pipeline.",
       details: [
-        "Event ingestion → ClickHouse pipeline",
-        "SQL-based detection rules",
-        "Modular, containerized architecture"
+        "One real Windows host lane; Linux collector templates and runbooks",
+        "Local Docker Compose stack with Grafana alerting and UI"
       ],
-      repo: "https://github.com/krazybean/Hayabusa"
+      repo: "https://github.com/krazybean/Hayabusa",
+      pipeline: ["Windows Events", "Vector", "NATS", "hayabusa-ingest (Go)", "ClickHouse", "SQL Detection", "Alerts / UI"]
     },
     {
-      name: "Bean",
-      description: "Production social platform backend",
+      name: "Harpoon",
+      icon: "container",
+      description: "Docker-compatible Apple Silicon macOS container environment using Apple Virtualization.framework and a minimal Linux VM.",
       details: [
-        "Authorization boundary enforcement",
-        "Admin capability system",
-        "Audit-first hardening approach"
+        "Swift host runtime bridges Docker CLI/context over Unix socket and vsock",
+        "Alpine guest runs Docker Engine; networking and VirtioFS bind mounts",
+        "Tauri desktop client, CLI, and Compose workflows"
       ],
-      repo: "https://github.com/krazybean/Bean"
+      repo: "https://github.com/krazybean/Harpoon"
     },
     {
-      name: "justifycert",
-      description: "TLS certificate analyzer",
+      name: "Conduit",
+      icon: "api",
+      description: "Small provider-neutral driver for local and hosted model APIs, implemented in TypeScript, Python, and Rust.",
       details: [
-        "Expiry, SAN, and chain validation",
-        "Structured JSON output",
-        "Actionable CLI results"
+        "OpenAI-compatible, Ollama, Anthropic, and Gemini drivers",
+        "Shared generation, streaming, and tool-call APIs; structured output varies by provider",
+        "Normalized errors, deadlines, cancellation, and cross-language conformance fixtures"
       ],
-      repo: "https://github.com/krazybean/justifycert"
-    },
-    {
-      name: "pybusy",
-      description: "Minimal CLI spinner for Python",
-      details: [
-        "Context manager API",
-        "TTY-aware output",
-        "Zero dependencies"
-      ],
-      repo: "https://github.com/krazybean/pybusy"
+      repo: "https://github.com/krazybean/Conduit"
     }
   ],
  
@@ -74,9 +63,8 @@ I enjoy building things that are small, clear, and hold up under real-world cons
   ],
 
   tech: {
-    backend: ["Python", "Django", "FastAPI", "Node.js", "TypeScript"],
-    data: ["PostgreSQL", "MySQL", "Relational modeling"],
-    systems: ["Linux", "Service architecture", "Background jobs"],
-    infra: ["AWS", "Docker", "CI/CD"]
+    languages: ["Swift", "TypeScript", "Python", "Rust", "Go", "SQL"],
+    systems: ["Apple Virtualization", "Alpine Linux", "VirtioFS", "Docker"],
+    data: ["Vector", "NATS", "ClickHouse"]
   }
 };

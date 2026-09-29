@@ -9,18 +9,6 @@ function escapeHtml(value) {
 
 function svgIcon(name) {
   const icons = {
-    spinner: `
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-        <path d="M12 4v3m0 10v3M4 12h3m10 0h3M6.2 6.2l2.1 2.1m7.4 7.4l2.1 2.1M17.8 6.2l-2.1 2.1M8.3 15.7l-2.1 2.1" />
-        <circle cx="12" cy="12" r="2.5" />
-      </svg>
-    `,
-    shield: `
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-        <path d="M12 3l7 3v6c0 4.4-2.7 7.8-7 9-4.3-1.2-7-4.6-7-9V6l7-3z" />
-        <path d="M9.5 12.1l1.7 1.7 3.6-3.6" />
-      </svg>
-    `,
     api: `
       <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
         <circle cx="6" cy="12" r="2" />
@@ -76,17 +64,6 @@ function svgIcon(name) {
   return icons[name] || icons.code;
 }
 
-function getProjectIcon(projectName) {
-  const normalized = projectName.toLowerCase();
-
-  if (normalized.includes("pybusy")) return svgIcon("spinner");
-  if (normalized.includes("justifycert")) return svgIcon("shield");
-  if (normalized.includes("bean")) return svgIcon("api");
-  if (normalized.includes("hayabusa")) return svgIcon("radar");
-
-  return svgIcon("code");
-}
-
 function getStackIcon(item) {
   const normalized = item.toLowerCase();
 
@@ -106,6 +83,7 @@ function getStackIcon(item) {
 
 function renderHero() {
   const heroSummary = profile.about.trim().split("\n\n")[0];
+  const focusLines = profile.focus.map((item) => `    - "${item}"`).join("\n");
   return `
     <div class="hero-grid">
       <div class="hero-copy">
@@ -116,13 +94,14 @@ function renderHero() {
         <div class="hero-links" aria-label="External links">
           <a href="https://github.com/krazybean" target="_blank" rel="noopener noreferrer">[GITHUB]</a>
           <a href="https://www.linkedin.com/in/juan-castro-dev/" target="_blank" rel="noopener noreferrer">[LINKEDIN]</a>
-          <a href="/docs/Juan-Castro-Resume.pdf" target="_blank" rel="noopener noreferrer">[RESUME]</a>
         </div>
       </div>
       <pre class="hero-panel" aria-label="profile snippet"><code>${escapeHtml(`class Engineer:
     name = "${profile.name}"
     role = "${profile.title}"
-    focus = ["Python", "Linux", "Infrastructure"]`)}</code></pre>
+    focus = [
+${focusLines}
+    ]`)}</code></pre>
     </div>
   `;
 }
@@ -151,32 +130,18 @@ function renderProjects() {
       (project) => `
         <article class="project project-card">
           <h3 class="project-name">
-            <span class="project-icon">${getProjectIcon(project.name)}</span>
+            <span class="project-icon">${svgIcon(project.icon)}</span>
             <span>${escapeHtml(project.name)}</span>
           </h3>
           <p class="project-description">${escapeHtml(project.description)}</p>
           <ul class="project-details">
             ${project.details.map((detail) => `<li>${escapeHtml(detail)}</li>`).join("")}
           </ul>
-          ${project.name === "Hayabusa" ? `
+          ${project.pipeline ? `
           <div class="project-diagram">
             <div class="project-diagram-divider"></div>
             <div class="pipeline-container">
-              <div class="pipeline-node">Windows Event Logs</div>
-              <div class="pipeline-arrow">↓</div>
-              <div class="pipeline-node">PowerShell Collector</div>
-              <div class="pipeline-arrow">↓</div>
-              <div class="pipeline-node">Vector</div>
-              <div class="pipeline-arrow">↓</div>
-              <div class="pipeline-node">NATS</div>
-              <div class="pipeline-arrow">↓</div>
-              <div class="pipeline-node">hayabusa-ingest (Go)</div>
-              <div class="pipeline-arrow">↓</div>
-              <div class="pipeline-node">ClickHouse</div>
-              <div class="pipeline-arrow">↓</div>
-              <div class="pipeline-node">SQL Detection Rules</div>
-              <div class="pipeline-arrow">↓</div>
-              <div class="pipeline-node">Alerts / UI</div>
+              ${project.pipeline.map((step, index) => `${index ? '<div class="pipeline-arrow" aria-hidden="true">↓</div>' : ""}<div class="pipeline-node">${escapeHtml(step)}</div>`).join("")}
             </div>
           </div>
           ` : ""}
@@ -192,48 +157,26 @@ function renderProjects() {
 }
 
 function renderSystemHistory() {
+  const history = profile.history.map((item) => `
+    <article class="history-card">
+      <span class="history-company">:: ${escapeHtml(item.company)}</span>
+      <p>${escapeHtml(item.description)}</p>
+      <p class="history-impact">→ ${escapeHtml(item.impact)}</p>
+    </article>
+  `).join("");
+
   return renderSection(
     "system-history",
     "SYSTEM_HISTORY",
     `
-      <div class="system-history-grid">
-        <article class="history-card">
-          <span class="history-company">:: RACKSPACE</span>
-          <p>Cloud database systems at scale</p>
-          <p class="history-impact">→ 300k+ databases, 1.5M websites</p>
-        </article>
-        <article class="history-card">
-          <span class="history-company">:: LIQUID WEB</span>
-          <p>Infrastructure provisioning architecture</p>
-          <p class="history-impact">→ Migrated 400k+ customers</p>
-        </article>
-        <article class="history-card">
-          <span class="history-company">:: MAILGUN</span>
-          <p>High-throughput validation + stream processing</p>
-          <p class="history-impact">→ 500k–8M events/day</p>
-        </article>
-        <article class="history-card">
-          <span class="history-company">:: COMMANDLINK</span>
-          <p>Security platform infrastructure + event processing</p>
-          <p class="history-impact">→ multi-tenant systems, rule engines, telemetry pipelines</p>
-        </article>
-      </div>
+      <div class="system-history-grid">${history}</div>
     `,
     "SYSTEM_HISTORY"
   );
 }
 
 function renderNow() {
-  return `
-    <section id="now" class="section" aria-labelledby="now-label">
-      <p class="section-label" id="now-label">NOW</p>
-      <ul class="list">
-        <li>Building small, production-grade developer tooling</li>
-        <li>Designing SaSSy (multi-tenant infrastructure control plane)</li>
-        <li>Refining system design and operational clarity</li>
-      </ul>
-    </section>
-  `;
+  return renderSection("now", "NOW", renderList(profile.focus), "CURRENT_FOCUS");
 }
 
 function renderTechStack() {
